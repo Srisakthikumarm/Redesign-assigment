@@ -28,6 +28,7 @@ body {
   display: flex;
   gap: 16px;
   width: max-content;
+  will-change: transform;
 }
 
 .card {

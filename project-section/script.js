@@ -1,38 +1,48 @@
 const marquee = document.getElementById("marquee");
 const track = document.getElementById("track");
+const cardCount = track.children.length;
 
 track.innerHTML += track.innerHTML;
 
 let x = 0;
-let speed = 0.6;
-let targetSpeed = 0.6;
+let speed = 40;
+let targetSpeed = 40;
 let width = 0;
+let lastTime = 0;
 
 function updateWidth() {
-  width = track.scrollWidth / 2;
+  width = track.children[cardCount].offsetLeft;
 }
 
-function loop() {
-  speed += (targetSpeed - speed) * 0.08;
-  x -= speed;
-
-  if (width && Math.abs(x) >= width) {
-    x = 0;
+function loop(time) {
+  if (!lastTime) {
+    lastTime = time;
   }
 
-  track.style.transform = `translateX(${x}px)`;
+  let seconds = Math.min((time - lastTime) / 1000, 0.04);
+  lastTime = time;
+
+  speed += (targetSpeed - speed) * 0.08;
+  x -= speed * seconds;
+
+  if (width && Math.abs(x) >= width) {
+    x += width;
+  }
+
+  track.style.transform = `translate3d(${x}px, 0, 0)`;
   requestAnimationFrame(loop);
 }
 
 marquee.addEventListener("mouseenter", () => {
-  targetSpeed = 0.2;
+  targetSpeed = 14;
 });
 
 marquee.addEventListener("mouseleave", () => {
-  targetSpeed = 0.6;
+  targetSpeed = 40;
 });
 
 window.addEventListener("resize", updateWidth);
+window.addEventListener("load", updateWidth);
 
 updateWidth();
-loop();
+requestAnimationFrame(loop);
