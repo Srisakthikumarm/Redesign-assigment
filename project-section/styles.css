@@ -48,6 +48,7 @@ body {
   display: block;
   border-radius: 12px;
   transition: transform 300ms ease;
+  will-change: transform;
 }
 
 .card span {

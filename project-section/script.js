@@ -22,7 +22,8 @@ function loop(time) {
   let seconds = Math.min((time - lastTime) / 1000, 0.04);
   lastTime = time;
 
-  speed += (targetSpeed - speed) * 0.08;
+  let smooth = Math.min(seconds * 8, 1);
+  speed += (targetSpeed - speed) * smooth;
   x -= speed * seconds;
 
   if (width && Math.abs(x) >= width) {
